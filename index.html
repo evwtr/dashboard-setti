@@ -3093,11 +3093,14 @@ function showGate(msg){
     g.innerHTML='<div style="background:#fff;border-radius:14px;padding:30px 32px;width:340px;box-shadow:0 20px 60px rgba(0,0,0,.4);text-align:center">'
       +'<div style="font-weight:800;color:#002B5C;font-size:20px">NAVALHAS SETTI</div>'
       +'<div style="color:#667;font-size:12px;margin-bottom:18px">Painel de Programação da Produção</div>'
-      +'<input id="gateKey" type="password" placeholder="Chave de acesso" style="width:100%;padding:11px;border:1px solid #cdd6e0;border-radius:8px;font-size:14px;margin-bottom:10px" onkeydown="if(event.key===\'Enter\')doLogin()">'
+      +'<input id="gateKey" type="password" placeholder="Chave de acesso" style="width:100%;padding:11px;border:1px solid #cdd6e0;border-radius:8px;font-size:14px;margin-bottom:8px" onkeydown="if(event.key===\'Enter\')doLogin()">'
+      +'<label style="display:flex;gap:6px;align-items:center;justify-content:center;font-size:12px;color:#556;margin-bottom:10px;cursor:pointer"><input type="checkbox" id="gateRemember"> Lembrar chave neste dispositivo</label>'
       +'<button onclick="doLogin()" style="width:100%;padding:11px;background:#002B5C;color:#fff;border:0;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer">Entrar</button>'
       +'<div id="gateMsg" style="color:#b00020;font-size:12px;margin-top:10px;min-height:16px"></div>'
       +'<div style="margin-top:12px"><a href="#" onclick="offlineMode();return false" style="color:#8a97a5;font-size:11px">Usar offline (sem sincronizar)</a></div></div>';
-    document.body.appendChild(g); setTimeout(()=>{ const k=document.getElementById('gateKey'); if(k)k.focus(); },100);
+    document.body.appendChild(g);
+    try{ const rk=localStorage.getItem('setti_remember'); if(rk){ const kk=document.getElementById('gateKey'); if(kk)kk.value=atob(rk); const rc=document.getElementById('gateRemember'); if(rc)rc.checked=true; } }catch(e){}
+    setTimeout(()=>{ const k=document.getElementById('gateKey'); if(k)k.focus(); },100);
   }
   if(msg){ const mm=document.getElementById('gateMsg'); if(mm)mm.textContent=msg; }
   g.style.display='flex';
@@ -3108,15 +3111,20 @@ async function doLogin(){ const key=(document.getElementById('gateKey')||{}).val
   if(mm)mm.textContent='Entrando...';
   try{ const {error}=await SB.auth.signInWithPassword({email:SUPA_EMAIL,password:key});
     if(error){ if(mm)mm.textContent='Chave incorreta ou usuário não configurado.'; return; }
+    try{ const rem=document.getElementById('gateRemember'); if(rem&&rem.checked){ localStorage.setItem('setti_remember', btoa(key)); } else { localStorage.removeItem('setti_remember'); } }catch(e){}
     hideGate(); await bootCloud();
   }catch(e){ if(mm)mm.textContent='Erro ao conectar. Tente de novo.'; }
 }
 function offlineMode(){ hideGate(); CLOUD_ON=false; setCloudBadge('off'); init(); }
+function ensureLogoutBtn(){ if(document.getElementById('btnSair')) return; const host=document.querySelector('.head-btns'); if(!host) return;
+  const b=document.createElement('button'); b.id='btnSair'; b.className='btn btn-ghost btn-sm'; b.textContent='Sair'; b.title='Encerrar a sessão neste navegador'; b.onclick=logout; host.appendChild(b); }
+async function logout(){ if(!confirm('Encerrar a sessão neste navegador? Será preciso digitar a chave de acesso para entrar de novo.')) return;
+  try{ localStorage.removeItem('setti_remember'); }catch(e){} try{ if(SB) await SB.auth.signOut(); }catch(e){} location.reload(); }
 async function bootCloud(){ CLOUD_ON=true;
   try{ const got=await cloudPull(); await cloudPullXml();
     if(!got && TASKS && !IS_DEMO){ await SB.from('app_state').update({data:collectState(),updated_at:new Date().toISOString()}).eq('id',1); }
   }catch(e){ console.warn(e); }
-  cloudSubscribe(); setCloudBadge('ok'); init();
+  cloudSubscribe(); setCloudBadge('ok'); ensureLogoutBtn(); init();
 }
 async function startCloud(){
   if(!(window.supabase && window.supabase.createClient)){ console.warn('supabase-js não carregou — modo offline'); init(); return; }
