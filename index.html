@@ -107,6 +107,7 @@ tbody tr.clickable{cursor:pointer}
 .r-amarelo{background:#fdf5d8;color:#8a6d0f} .dot-amarelo{background:var(--yellow)}
 .r-laranja{background:#fdecd9;color:#a5591a} .dot-laranja{background:var(--orange)}
 .r-vermelho{background:#fbe0e0;color:#a52121} .dot-vermelho{background:var(--red)}
+.r-preto{background:#2b2f36;color:#fff} .dot-preto{background:#1a1d22}
 .r-cinza{background:#eceff2;color:#5a6b7d} .dot-cinza{background:var(--gray)}
 .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
 .s-pill{font-size:11px;font-weight:600;padding:2px 8px;border-radius:5px;background:#eef1f5;color:#33475b}
@@ -194,12 +195,10 @@ tbody tr.clickable{cursor:pointer}
 .nc-sug-item b{color:var(--navy)}
 .nc-hint{font-size:10.5px;color:#8a97a5;padding:0 2px 5px}
 /* Plano do Dia (grade) — listas expansíveis em colunas */
-.dg-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:start}
-@media(max-width:1400px){.dg-grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:1050px){.dg-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:700px){.dg-grid{grid-template-columns:1fr}}
-/* seções por setor: cada agrupamento ocupa nº de colunas = nº de máquinas (máx 4), para preencher o espaço (2+2, 1+3, etc.) */
-.dg-sec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;align-items:start}
+.dg-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;align-items:start}
+@media(max-width:900px){.dg-grid{grid-template-columns:1fr}}
+/* seções por setor: cada agrupamento ocupa nº de colunas = nº de máquinas (máx 2), para preencher o espaço */
+.dg-sec-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;align-items:start}
 .dg-sec{background:#f4f6f9;border:1px solid #e7ecf2;border-radius:9px;padding:8px}
 .dg-sec-h{font-weight:700;color:var(--navy);font-size:12.5px;margin:0 0 6px;border-bottom:2px solid var(--lightblue);padding-bottom:3px}
 .dg-sec-in{display:grid;gap:8px;align-items:start}
@@ -211,13 +210,25 @@ tbody tr.clickable{cursor:pointer}
 .dg-head.open{background:var(--navy);color:#fff}
 .dg-meta{font-size:10px;font-weight:500;opacity:.92;white-space:nowrap}
 .dg-body{max-height:300px;overflow-y:auto}
-.dg-row{display:grid;grid-template-columns:1fr 38px 38px 32px 12px;gap:5px;align-items:center;padding:4px 8px;border-bottom:1px solid #eef1f5;cursor:pointer}
+/* linha única da grade: Operação·Ref | Início prev | Término prev | % | Ini real | Fim real | Desvio | Salvar */
+.dg-row{display:grid;grid-template-columns:1fr 40px 40px 42px 58px 58px 26px 24px;gap:4px;align-items:center;padding:5px 6px;border-bottom:1px solid #eef1f5;cursor:pointer}
 .dg-row:hover{background:var(--bg)}
-.dg-op{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.dg-op b{color:var(--navy)} .dg-ref{color:#8a97a5;font-weight:400}
-.dg-dt{font-size:10px;text-align:right;font-variant-numeric:tabular-nums}
-.dg-pct{font-size:10px;text-align:right;font-variant-numeric:tabular-nums}
-.dg-st{width:9px;height:9px;border-radius:50%;justify-self:center}
+.dg-op{white-space:normal;line-height:1.25;word-break:break-word;overflow-wrap:anywhere}
+.dg-op b{color:var(--navy);display:block} .dg-ref{display:block;color:#8a97a5;font-weight:400;margin-top:1px}
+.dg-st2{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;vertical-align:middle}
+/* datas previstas em EVIDÊNCIA */
+.dg-prevdt{font-size:11px;font-weight:700;text-align:center;font-variant-numeric:tabular-nums;color:var(--navy)}
+.dg-hcol{font-size:8.5px;font-weight:700;color:#5a6b7d;text-align:center;text-transform:uppercase;letter-spacing:.2px}
+.dg-sel{font-size:10px;padding:1px;border:1px solid var(--border);border-radius:4px;background:#fff;color:var(--text);width:100%}
+.dg-dwrap{display:flex;align-items:center;gap:0}
+.dg-date{width:38px;font-size:10px;padding:1px 0;border:1px solid var(--border);border-radius:3px;text-align:center;color:var(--text);font-family:inherit}
+.dg-calh{width:15px;flex:0 0 auto;border:none;background:transparent;padding:0;cursor:pointer}
+.dg-calh::-webkit-datetime-edit{display:none}
+.dg-calh::-webkit-inner-spin-button,.dg-calh::-webkit-clear-button{display:none}
+.dg-calh::-webkit-calendar-picker-indicator{opacity:.65;cursor:pointer;padding:0;margin:0}
+.dg-desv{font-size:10px;font-weight:700;text-align:center;font-variant-numeric:tabular-nums}
+.dg-save{border:none;border-radius:4px;background:var(--blue);color:#fff;font-size:12px;font-weight:700;cursor:pointer;padding:3px 0;width:100%}
+.dg-save:hover{background:#2a83c9}
 .dg-empty{padding:10px;color:#8a97a5;text-align:center}
 /* sidebar recolhível */
 .sidebar{transition:transform .18s} main{transition:margin-left .18s}
@@ -425,7 +436,7 @@ const DEFAULT_CONFIG = {
   // Calendário
   diasUteis: {0:false,1:true,2:true,3:true,4:true,5:true,6:false}, // dom..sáb
   feriados: ["2026-01-01","2026-04-21","2026-05-01","2026-09-07","2026-10-12","2026-11-02","2026-11-15","2026-12-25"],
-  cores: {verde:"#2EAD4B",amarelo:"#F2C94C",laranja:"#F2994A",vermelho:"#D64545",cinza:"#9AA7B4"},
+  cores: {verde:"#2EAD4B",amarelo:"#F2C94C",laranja:"#F2994A",vermelho:"#D64545",preto:"#1A1D22",cinza:"#9AA7B4"},
   usarData1Project: false, // se true, usa Data1 do Project como data prometida (fallback) quando não há planilha
   mapeamento: {} // mapeamento manual de colunas persistido
 };
@@ -818,27 +829,27 @@ function computeTask(t){
 }
 // chip que mostra "Concluído" para tarefas 100% (nunca crítico/atrasado)
 function riscoTag(t){ return t.concluido? '<span class="chip r-verde">Concluído</span>' : riskChip(t.risco); }
+// dias de ATRASO = data de conclusão prevista (dataCalc) − data programada interna (progD), em dias úteis
+function atrasoDias(c){ if(!c.progD || !c.dataCalc) return null;
+  if(c.dataCalc<=c.progD) return 0;                          // prevista no prazo ou antes → sem atraso
+  return Math.max(0, busDaysBetween(c.progD, c.dataCalc)-1); // dias úteis que a prevista passa da programada
+}
+// Indicador de risco: reflete "data programada interna" x "data de conclusão prevista"
+//   verde: atraso ≤ 0 · amarelo: >0 e ≤3 · vermelho: >3 e ≤7 · preto: >7 (dias úteis)
 function classifica(c){
-  const R=CONFIG.risco;
-  if(c.status==='Concluída' || c.pct>=100) return 'verde';   // concluída sempre verde (antes de qualquer regra de atraso)
-  if(c.status==='Travada') return 'vermelho';
-  if(!c.progD && c.promD) return 'cinza';           // aguardando programação
-  if(!c.promD && !c.progD) return 'cinza';          // sem informação
-  if(!c.recurso) return 'cinza';                    // pendência de recurso
-  if(c.status==='Concluída' || c.pct>=100) return 'verde';
-  // prazo prometido estourado
-  if(c.promD && c.promD < today()) return 'vermelho';
-  const folga = c.folgaPrometida!=null? c.folgaPrometida : c.folgaProgramada;
-  if(folga==null) return 'cinza';
-  if(folga < R.folgaLaranja) return 'vermelho';
-  if(folga < R.folgaAmarelo) return 'laranja';
-  if(folga < R.folgaVerde) return 'amarelo';
-  return 'verde';
+  if(c.status==='Concluída' || c.pct>=100) return 'verde';   // concluída sempre verde (nunca atrasada)
+  if(!c.progD || !c.dataCalc) return 'cinza';                // sem programação/previsão → sem info
+  const a=atrasoDias(c);
+  if(a==null) return 'cinza';
+  if(a<=0) return 'verde';
+  if(a<=3) return 'amarelo';
+  if(a<=7) return 'vermelho';
+  return 'preto';
 }
 function computeAll(){ return (TASKS||[]).map(computeTask); }
 
 /* ---------- CLASSES/RÓTULOS DE RISCO ---------- */
-const RISK_LABEL={verde:'No prazo',amarelo:'Atenção',laranja:'Risco',vermelho:'Crítico',cinza:'Sem programação'};
+const RISK_LABEL={verde:'No prazo',amarelo:'Atenção',laranja:'Risco',vermelho:'Atrasado',preto:'Crítico',cinza:'Sem previsão'};
 // Explicações (tooltip) por rótulo de card — para o dashboard ser autoexplicativo
 const KPI_TIPS={
   'Entregas vencidas':'Moldes/OPs com data prometida ao cliente já vencida e ainda não concluídos.',
@@ -1193,8 +1204,9 @@ function classifyPacote(s){
 
 /* ---------- NAVEGAÇÃO / MODAIS ---------- */
 document.querySelectorAll('.nav-item').forEach(n=>n.addEventListener('click',()=>navTo(n.dataset.view)));
-function navTo(v){
+function navTo(v, keep){
   currentView=v;
+  if(!keep) FILTERS={ periodoIni:'', periodoFim:'', pacote:'', grupo:'', recurso:'', status:'', risco:'', cliente:'', busca:'' };  // reseta filtros ao trocar de aba
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.view===v));
   document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
   document.getElementById('view-'+v).classList.add('active');
@@ -1248,7 +1260,7 @@ function deliveries(){
   computeAll().forEach(t=>{ const k=normRef(t.molde)||'—';   // agrupa por referência única (Texto1)
     if(!g[k]) g[k]={molde:t.molde||'—',pacote:t.pacote,cliente:t.cliente,promD:t.promD,ops:[],qtdTotal:0,qtdFeita:0};
     const d=g[k]; if(!d.promD&&t.promD)d.promD=t.promD; d.ops.push(t); d.qtdTotal+=t.qtdTotal; d.qtdFeita+=t.qtdFeita; });
-  const sev={cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4};
+  const sev={cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4,preto:5};
   return Object.values(g).map(d=>{
     const concl=d.ops.every(o=>o.pct>=100);
     const lastCalc=d.ops.reduce((m,o)=>(o.dataCalc&&(!m||o.dataCalc>m))?o.dataCalc:m,null);
@@ -1274,7 +1286,7 @@ function resourceLoad(byGroup){
     if(t.inicioD&&(!d.ini||t.inicioD<d.ini))d.ini=t.inicioD; if(t.fimD&&(!d.fim||t.fimD<d.fim))d.fim=t.fimD;
     if(t.atrasada) d.atrasadas++;
   });
-  const sev={cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4};
+  const sev={cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4,preto:5};
   return Object.values(g).map(d=>{
     const cap=CONFIG.capacidade[d.recurso]||null;
     d.capacidade=cap; d.utilPct = cap? Math.round(d.cargaDia/cap*100):null;
@@ -1288,7 +1300,7 @@ function semApontamento(){ return computeAll().filter(t=>['Em andamento','Parcia
   !LOG.some(l=>l.taskId===t.id)); }
 
 /* ---------- CARTEIRA / PROMESSAS (cruzamento planilha × Project) ---------- */
-const SEV={cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4};
+const SEV={cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4,preto:5};
 function carteira(){
   const all=computeAll(); const t0=today();
   const byMold={}; all.forEach(t=>{ const k=normRef(t.molde); (byMold[k]=byMold[k]||[]).push(t); });
@@ -1824,16 +1836,16 @@ function renderPainel(){
   const moldesTravados=moldsWith(travadasOps);
   const semAp=semApontamento();
   const rl=resourceLoad(); const sobre=rl.filter(r=>r.sobrecarregado);
-  const risco=dels.filter(d=>['laranja','vermelho'].includes(d.risco)&&!d.concluida);
+  const risco=dels.filter(d=>['laranja','vermelho','preto'].includes(d.risco)&&!d.concluida);
   const emAndamento=dels.filter(d=>!d.concluida && d.ops.some(o=>o.pct>0));
   const semProm=moldesSemPromessa().length;
   const aguardProg=carteira().filter(c=>c.situacao==='Aguardando programação').length;
   // OPERAÇÕES (subtítulos e cargas) — nunca somar peças aqui
-  const opsRisco=all.filter(t=>['laranja','vermelho'].includes(t.risco)&&t.pct<100).length;
+  const opsRisco=all.filter(t=>['laranja','vermelho','preto'].includes(t.risco)&&t.pct<100).length;
   const opsHoje=all.filter(t=>t.pct<100 && (!t.inicioD||t.inicioD<=t0) && (!t.progD||t.progD>=t0)).length;
   const opsSem=all.filter(t=>t.progD&&weekKey(t.progD)===weekKey(t0)&&t.pct<100).length;
   const opsMes=all.filter(t=>t.progD&&monthKey(t.progD)===monthKey(t0)&&t.pct<100).length;
-  const moldesRiscoOps=risco.reduce((s,d)=>s+d.ops.filter(o=>['laranja','vermelho'].includes(o.risco)).length,0);
+  const moldesRiscoOps=risco.reduce((s,d)=>s+d.ops.filter(o=>['laranja','vermelho','preto'].includes(o.risco)).length,0);
 
   const kpi=(cls,lbl,val,sub,onclick)=>{ const tip=KPI_TIPS[lbl]||''; return `<div class="kpi ${cls}" ${tip?`title="${esc(tip)}"`:''} onclick="${onclick||''}"><div class="bar"></div>
     <div class="lbl">${lbl}</div><div class="val">${val}</div><div class="sub">${sub||''}</div></div>`; };
@@ -1882,7 +1894,7 @@ function renderPainel(){
       <div id="painelReport" class="report-box" style="border:none;padding:0"></div></div>
     <div class="grid-2">
       <div class="panel"><h3><span class="t">Status geral dos moldes</span>${expandBtn('chStatus','Status geral dos moldes')}</h3><div class="chart-wrap"><canvas id="chStatus"></canvas></div>
-        <div class="legend">${['verde','amarelo','laranja','vermelho','cinza'].map(r=>`<span>${riskDot(r)}${RISK_LABEL[r]}</span>`).join('')}</div></div>
+        <div class="legend">${['verde','amarelo','vermelho','preto','cinza'].map(r=>`<span>${riskDot(r)}${RISK_LABEL[r]}</span>`).join('')}</div></div>
       <div class="panel"><h3><span class="t">Carga por recurso — peças a produzir <span class="tag-mini">operacional</span></span>${expandBtn('chRecurso','Carga por recurso (peças)')}</h3><div class="chart-wrap"><canvas id="chRecurso"></canvas></div></div>
     </div>
     <div class="grid-2">
@@ -1909,13 +1921,13 @@ function expandBtn(id,title){ return `<button class="btn btn-outline btn-sm" sty
 const RC=()=>CONFIG.cores;
 function renderPainelCharts(all,dels,rl){
   // Status geral — por MOLDE (unidade executiva)
-  const order=['verde','amarelo','laranja','vermelho','cinza'];
+  const order=['verde','amarelo','vermelho','preto','cinza'];
   const counts=order.map(r=>dels.filter(d=>d.risco===r).length);
   destroyChart('chStatus');
   charts.chStatus=new Chart(document.getElementById('chStatus'),{type:'doughnut',
     data:{labels:order.map(r=>RISK_LABEL[r]),datasets:[{data:counts,backgroundColor:order.map(r=>RC()[r]),borderWidth:2,borderColor:'#fff'}]},
     options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.label}: ${c.raw} molde(s)`}}},cutout:'58%',
-      onClick:(e,el)=>{ if(el.length){ FILTERS.risco=order[el[0].index]; navTo('pacotes'); } }}});
+      onClick:(e,el)=>{ if(el.length){ FILTERS.risco=order[el[0].index]; navTo('pacotes', true); } }}});
   // Carga por recurso — PEÇAS (operacional)
   destroyChart('chRecurso');
   const rlTop=rl.slice(0,10);
@@ -1923,7 +1935,7 @@ function renderPainelCharts(all,dels,rl){
     data:{labels:rlTop.map(r=>r.recurso),datasets:[{label:'Saldo (peças)',data:rlTop.map(r=>r.saldo),
       backgroundColor:rlTop.map(r=>r.sobrecarregado?RC().vermelho:'#1F6FAE')}]},
     options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.raw} peças`}}},scales:{x:{beginAtZero:true}},
-      onClick:(e,el)=>{ if(el.length){ FILTERS.recurso=rlTop[el[0].index].recurso; navTo('recursos'); } }}});
+      onClick:(e,el)=>{ if(el.length){ FILTERS.recurso=rlTop[el[0].index].recurso; navTo('recursos', true); } }}});
   // Moldes prometidos por semana
   const wk={}; dels.forEach(d=>{ if(d.promD&&!d.concluida){ const k=weekKey(d.promD); wk[k]=(wk[k]||0)+1; } });
   const wkeys=Object.keys(wk).sort();
@@ -1991,7 +2003,7 @@ function filterBar(which){
   parts.push(`<select onchange="setFilter('grupo',this.value)"><option value="">Grupo: todos</option>${allGrupos().map(v=>`<option ${F.grupo===v?'selected':''}>${esc(v)}</option>`).join('')}</select>`);
   parts.push(`<select onchange="setFilter('recurso',this.value)"><option value="">Recurso (máquina): todos</option>${allRecursos().map(v=>`<option ${F.recurso===v?'selected':''}>${esc(v)}</option>`).join('')}</select>`);
   parts.push(`<select onchange="setFilter('status',this.value)"><option value="">Status: todos</option>${STATUS_LIST.map(v=>`<option ${F.status===v?'selected':''}>${esc(v)}</option>`).join('')}</select>`);
-  parts.push(`<select onchange="setFilter('risco',this.value)"><option value="">Risco: todos</option>${['verde','amarelo','laranja','vermelho','cinza'].map(v=>`<option value="${v}" ${F.risco===v?'selected':''}>${RISK_LABEL[v]}</option>`).join('')}</select>`);
+  parts.push(`<select onchange="setFilter('risco',this.value)"><option value="">Risco: todos</option>${['verde','amarelo','vermelho','preto','cinza'].map(v=>`<option value="${v}" ${F.risco===v?'selected':''}>${RISK_LABEL[v]}</option>`).join('')}</select>`);
   parts.push(`<select onchange="setFilter('cliente',this.value)"><option value="">Cliente: todos</option>${allClientes().map(v=>`<option ${F.cliente===v?'selected':''}>${esc(v)}</option>`).join('')}</select>`);
   if(which==='period'){ parts.push(`<input type="date" value="${F.periodoIni}" onchange="setFilter('periodoIni',this.value)" title="De">`);
     parts.push(`<input type="date" value="${F.periodoFim}" onchange="setFilter('periodoFim',this.value)" title="Até">`); }
@@ -1999,7 +2011,8 @@ function filterBar(which){
   parts.push(`<button class="btn btn-light btn-sm" onclick="exportCSV(filtered())">CSV filtrado</button>`);
   return `<div class="table-tools">${parts.join('')}</div>`;
 }
-function setFilter(k,v){ FILTERS[k]=v; renderView(currentView); }
+function setFilter(k,v){ FILTERS[k]=v; renderView(currentView);
+  if(k==='busca'){ const el=document.querySelector('.view.active input[type="search"]'); if(el){ el.focus(); try{ el.setSelectionRange(el.value.length,el.value.length); }catch(e){} } } }
 
 /* ---------- AÇÃO RECOMENDADA ---------- */
 function acaoRecomendada(t){
@@ -2026,7 +2039,7 @@ function planColumns(){
     {key:'metaMoldeDia',label:'Meta diária',cls:'num',sortVal:r=>r.metaMoldeDia,render:r=>fmtMeta(r.metaMoldeDia)},
     {key:'pct',label:'Progresso',cls:'num',render:r=>`<div class="prog"><i style="width:${Math.min(100,r.pct)}%"></i></div> ${r.pct}%`},
     {key:'status',label:'Status',render:r=>`<span class="s-pill">${esc(r.status)}</span>`},
-    {key:'risco',label:'Risco',sortVal:r=>({cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4})[r.risco],render:r=>riscoTag(r)},
+    {key:'risco',label:'Risco',sortVal:r=>({cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4,preto:5})[r.risco],render:r=>riscoTag(r)},
     {key:'acao',label:'Ação recomendada',sortVal:r=>acaoRecomendada(r),render:r=>esc(acaoRecomendada(r))},
     {key:'ap',label:'',render:r=>`<button class="btn btn-light btn-sm" onclick="event.stopPropagation();openApontar(${r.id})">Apontar</button>`}
   ];
@@ -2034,6 +2047,7 @@ function planColumns(){
 
 /* ---------- RELATÓRIOS PDF (grade de gestão da produção) ---------- */
 let REPORT_CFG=(()=>{ try{ return Object.assign({grupo:'geral',incluir:false}, JSON.parse(localStorage.getItem('setti_report_cfg')||'{}')); }catch(e){ return {grupo:'geral',incluir:false}; } })();
+let REPORT_OPEN=false;   // painel de Relatórios PDF começa recolhido
 function saveReportCfg(){ try{ localStorage.setItem('setti_report_cfg', JSON.stringify(REPORT_CFG)); }catch(e){} }
 const REPORT_GROUPS={
   fundicao:{label:'Fundição', setores:['Fundição']},
@@ -2044,11 +2058,12 @@ const REPORT_GROUPS={
 };
 const REPORT_ORDER=['fundicao','usinagem','banca','qualidade','demais'];
 function reportGroupKey(t){ const g=grupoDe(t); for(const k of REPORT_ORDER){ if(k==='demais')continue; if(REPORT_GROUPS[k].setores.includes(g)) return k; } return 'demais'; }
+function toggleReportBar(){ REPORT_OPEN=!REPORT_OPEN; renderView('diagrade'); }
 function reportPdfBarHtml(){
   const opt=(v,l)=>`<option value="${v}" ${REPORT_CFG.grupo===v?'selected':''}>${l}</option>`;
   return `<div class="panel" style="padding:12px;margin-bottom:10px">
-    <h3 style="margin-bottom:8px"><span class="t">📄 Relatórios PDF — gestão da produção</span></h3>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+    <h3 style="margin-bottom:${REPORT_OPEN?'8px':'0'};cursor:pointer" onclick="toggleReportBar()"><span class="t">📄 Relatórios PDF — gestão da produção</span><span style="color:#8a97a5;font-weight:600;font-size:12px">${REPORT_OPEN?'▾ recolher':'▸ expandir'}</span></h3>
+    ${REPORT_OPEN?`<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
       <label style="font-size:12px">Grupo:
         <select onchange="REPORT_CFG.grupo=this.value;saveReportCfg()" style="border:1px solid var(--border);border-radius:5px;padding:4px">
           ${opt('geral','Geral (todos os grupos)')}${opt('fundicao','Fundição')}${opt('usinagem','Usinagem')}${opt('banca','Banca / Ferramentaria / Solda / Eletroerosão')}${opt('qualidade','Qualidade')}${opt('demais','Demais / Não mapeados')}
@@ -2056,12 +2071,12 @@ function reportPdfBarHtml(){
       <label style="font-size:12px;display:flex;gap:4px;align-items:center"><input type="checkbox" ${REPORT_CFG.incluir?'checked':''} onchange="REPORT_CFG.incluir=this.checked;saveReportCfg()"> Incluir concluídas</label>
       <span style="width:1px;height:22px;background:var(--border)"></span>
       <button class="btn btn-primary btn-sm" onclick="genRep(0)">Plano do Dia — Grade</button>
-      <button class="btn btn-outline btn-sm" onclick="genRep(5)">Término 5 dias</button>
-      <button class="btn btn-outline btn-sm" onclick="genRep(10)">Término 10 dias</button>
-      <button class="btn btn-outline btn-sm" onclick="genRep(15)">Término 15 dias</button>
-      <button class="btn btn-outline btn-sm" onclick="genRep(20)">Término 20 dias</button>
+      <button class="btn btn-outline btn-sm" onclick="genRep(5)">Início 5 dias</button>
+      <button class="btn btn-outline btn-sm" onclick="genRep(10)">Início 10 dias</button>
+      <button class="btn btn-outline btn-sm" onclick="genRep(15)">Início 15 dias</button>
+      <button class="btn btn-outline btn-sm" onclick="genRep(20)">Início 20 dias</button>
     </div>
-    <p class="hint" style="margin-top:6px">A4 paisagem, agrupado por <b>grupo → máquina</b>. Atrasadas não concluídas sempre entram. Nada fica de fora: o que não se encaixa vai para "Demais / Não mapeados". No diálogo de impressão, escolha <b>Salvar como PDF</b>.</p>
+    <p class="hint" style="margin-top:6px">A4 paisagem, agrupado por <b>grupo → máquina</b>. Atrasadas não concluídas sempre entram. Nada fica de fora: o que não se encaixa vai para "Demais / Não mapeados". No diálogo de impressão, escolha <b>Salvar como PDF</b>.</p>`:''}
   </div>`;
 }
 function genRep(days){ generateProductionReportPDF({horizonDays:days, reportGroup:REPORT_CFG.grupo, includeCompleted:!!REPORT_CFG.incluir}); }
@@ -2077,7 +2092,7 @@ function reportTasks(o){
     const atrasada=repAtrasada(t);
     let periodo;
     if((o.horizonDays||0)===0){ const emAnd=t.pct>0&&t.pct<100; const hoje=(t.inicioD&&t.inicioD<=t0&&fim>=t0)||isoDate(fim)===t0d; periodo=atrasada||emAnd||hoje; }
-    else { periodo=atrasada || (fim>=t0 && fim<=end); }
+    else { const ini=t.inicioD||t.progD; periodo=atrasada || (ini && ini<=end); }   // horizonte por INÍCIO em até X dias
     if(!periodo) return false;
     const grp=o.reportGroup||'geral';
     if(grp!=='geral' && reportGroupKey(t)!==grp) return false;
@@ -2088,7 +2103,7 @@ function generateProductionReportPDF(o){
   o=o||{}; const tasks=reportTasks(o);
   const groupsToRender=(o.reportGroup==='geral'||!o.reportGroup)?REPORT_ORDER:[o.reportGroup];
   const now=new Date();
-  const horizonLabel=(o.horizonDays||0)===0?'Plano do Dia (hoje · em andamento · atrasadas)':('Término em até '+o.horizonDays+' dias');
+  const horizonLabel=(o.horizonDays||0)===0?'Plano do Dia (hoje · em andamento · atrasadas)':('Início em até '+o.horizonDays+' dias');
   const grpLabel=(o.reportGroup==='geral'||!o.reportGroup)?'Geral (todos os grupos)':REPORT_GROUPS[o.reportGroup].label;
   const totRec=new Set(tasks.map(t=>recursoDe(t))).size;
   const totAtr=tasks.filter(repAtrasada).length, totCrit=tasks.filter(t=>t.risco==='vermelho').length;
@@ -2140,7 +2155,7 @@ th{ background:#33475b; color:#fff; text-align:left; padding:3px 5px; font-size:
 td{ border-bottom:1px solid #dfe4ea; padding:2px 5px; font-size:9px; vertical-align:top; } .num{ text-align:right; }
 tr{ page-break-inside:avoid; } .atr{ color:#b00020; font-weight:700; }
 .chip{ padding:1px 5px; border-radius:3px; font-size:8.5px; font-weight:600; border:1px solid rgba(0,0,0,.12); }
-.r-verde{ background:#e9f6ec; } .r-amarelo{ background:#fff6dd; } .r-laranja{ background:#ffe7d3; } .r-vermelho{ background:#fce4e4; } .r-cinza{ background:#f1f1f1; }
+.r-verde{ background:#e9f6ec; } .r-amarelo{ background:#fff6dd; } .r-laranja{ background:#ffe7d3; } .r-vermelho{ background:#fce4e4; } .r-preto{ background:#3a3f45; color:#fff; } .r-cinza{ background:#f1f1f1; }
 tbody tr.r-verde td, tbody tr.r-amarelo td, tbody tr.r-laranja td, tbody tr.r-vermelho td, tbody tr.r-cinza td{ }
 .pageb{ page-break-before:always; } .empty{ color:#888; font-style:italic; }
 .foot{ margin-top:12px; border-top:1px solid #ccc; padding-top:3px; font-size:8px; color:#888; display:flex; justify-content:space-between; }
@@ -2209,35 +2224,67 @@ function renderDia(){
 }
 
 /* ---------- PLANO DO DIA — GRADE (listas expansíveis) ---------- */
-let DG_OPEN=new Set(), DG_DIAS='';
+let DG_OPEN=new Set(), DG_DIAS='7';   // grade abre pré-carregada com término em até 7 dias
 function dgBase(){ let base=computeAll().filter(t=>!t.concluido).filter(passFilters);
-  if(DG_DIAS!=='' && !isNaN(+DG_DIAS)){ const lim=addDays(today(),+DG_DIAS); base=base.filter(t=>{ const d=t.fimD||t.progD; return d && d<=lim; }); }
+  if(DG_DIAS!=='' && !isNaN(+DG_DIAS)){ const lim=addDays(today(),+DG_DIAS); base=base.filter(t=>{ const d=t.inicioD||t.progD; return d && d<=lim; }); }  // filtra por INÍCIO em até X dias
   return base; }
 function ddmm(d){ if(!d)return '—'; d=(d instanceof Date)?d:parseDate(d); if(!d)return '—'; return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0'); }
 function termColor(t){ if(t.concluido)return 'var(--text)'; const d=t.fimD||t.progD; if(!d)return 'var(--text)'; const t0=today();
   if(d<t0)return 'var(--red)'; const du=busDaysBetween(t0,d); if(du!=null&&du<=3)return 'var(--orange)'; return 'var(--text)'; }
 // cor da data prometida de uma entrega (molde) vs hoje
 function termD(d){ if(d.concluida||!d.promD)return 'var(--text)'; const t0=today(); if(d.promD<t0)return 'var(--red)'; const du=busDaysBetween(t0,d.promD); if(du!=null&&du<=3)return 'var(--orange)'; return 'var(--text)'; }
-function statusColor(t){ if(t.concluido||t.risco==='verde')return 'var(--green)'; if(t.risco==='vermelho')return 'var(--red)';
+function statusColor(t){ if(t.concluido||t.risco==='verde')return 'var(--green)'; if(t.risco==='preto')return '#1a1d22'; if(t.risco==='vermelho')return 'var(--red)';
   if(t.risco==='amarelo'||t.risco==='laranja')return 'var(--orange)'; return 'var(--gray)'; }
 function toggleDG(key){ if(DG_OPEN.has(key))DG_OPEN.delete(key); else DG_OPEN.add(key); renderView('diagrade'); }
+// desvio (dias corridos) do real vs programado: fim real − término programado; senão início real − início programado
+function dgDesvio(t){ const progFim=t.fimD||t.progD;
+  if(t.fimReal && progFim){ return Math.round((parseDate(t.fimReal)-progFim)/864e5); }
+  if(t.inicioReal && t.inicioD){ return Math.round((parseDate(t.inicioReal)-t.inicioD)/864e5); }
+  return null; }
+// máscara dd/mm enquanto digita (só números → dd/mm)
+function dgMaskDDMM(el){ let v=el.value.replace(/\D/g,'').slice(0,4); if(v.length>=3) v=v.slice(0,2)+'/'+v.slice(2); el.value=v; }
+// ao escolher no calendário (ISO yyyy-mm-dd), preenche o campo de texto em dd/mm
+function dgCalPick(txtId, iso){ const el=document.getElementById(txtId); if(!el||!iso)return; const p=iso.split('-'); el.value=p[2]+'/'+p[1]; }
+// dd/mm → ISO usando o ano da data programada de referência (senão ano atual)
+function dgParseDDMM(str, ref){ if(!str)return ''; const m=String(str).match(/^(\d{1,2})\/(\d{1,2})$/); if(!m)return '';
+  const yr=(ref&&ref.getFullYear)?ref.getFullYear():today().getFullYear(); return isoDate(new Date(yr,(+m[2])-1,+m[1])); }
+// apontamento rápido pela grade: aplica o % escolhido + Início/Término reais (dd/mm) e salva (sem abrir modal)
+function dgApontar(id){ const sel=document.getElementById('dgpct_'+id); if(!sel)return; const t=(TASKS||[]).find(x=>x.id===id); if(!t)return;
+  const pv=Math.max(0,Math.min(100,parseInt(sel.value,10)||0));
+  const iniEl=document.getElementById('ini_'+id), fimEl=document.getElementById('fim_'+id);
+  if(iniEl) t.inicioReal = dgParseDDMM(iniEl.value, t.inicioD||t.progD);
+  if(fimEl) t.fimReal = dgParseDDMM(fimEl.value, t.fimD||t.progD);
+  t.pct=pv;
+  if(pv>=100){ t.status='Concluída'; t.qtdFeita=t.qtdTotal; if(!t.fimReal)t.fimReal=isoDate(today()); }
+  else if(pv>0 && (t.status==='Não iniciada'||!t.status)){ t.status='Em andamento'; }
+  CHANGED[String(id)]=true;
+  LOG.push({taskId:id,data:isoDate(today()),qtd:0,status:t.status,pct:pv,motivo:'',obs:'',resp:loadLS('setti_lastresp',''),previsao:'',inicioReal:t.inicioReal||'',fimReal:t.fimReal||'',dataAnterior:t.fim||'',ts:new Date().toISOString()});
+  LAST_UPDATE=new Date().toISOString(); touchChange(); persist(); refreshAll();
+  toast('Apontado '+pv+'% · '+displayName(t)); }
 function dgListCard(key,label,tasks){
   const open=DG_OPEN.has(key);
   const nMold=new Set(tasks.map(t=>normRef(t.molde)).filter(Boolean)).size;
   const atr=tasks.filter(t=>t.atrasada).length;
-  const sev={cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4};
+  const sev={cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4,preto:5};
   const worst=tasks.reduce((m,t)=>sev[t.risco]>sev[m]?t.risco:m,'cinza');
   let body='';
   if(open){
     const shown=tasks.slice(0,80);
     body=`<div class="dg-body">`+
-      `<div class="dg-row" style="cursor:default;background:#f7f9fb;font-weight:600;color:#5a6b7d"><span class="dg-op">Operação · Ref</span><span class="dg-dt">Iní</span><span class="dg-dt">Fim</span><span class="dg-pct">%</span><span class="dg-st"></span></div>`+
-      (shown.map(t=>`<div class="dg-row" onclick="openTaskDetail(${t.id})" title="${esc(displayName(t))} — ${esc(t.status)}">
-        <span class="dg-op"><b>${esc(opUpper(t))}</b> <span class="dg-ref">${esc(t.molde||'')}</span></span>
-        <span class="dg-dt">${ddmm(t.inicioD)}</span>
-        <span class="dg-dt" style="color:${termColor(t)};font-weight:600">${ddmm(t.fimD||t.progD)}</span>
-        <span class="dg-pct">${t.pct}%</span>
-        <span class="dg-st" style="background:${statusColor(t)}" title="${esc(RISK_LABEL[t.risco]||'')}"></span></div>`).join('')||'<div class="dg-empty">—</div>')+
+      `<div class="dg-row" style="cursor:default;background:#f7f9fb"><span class="dg-hcol" style="text-align:left">Operação · Ref</span><span class="dg-hcol">Iní prev</span><span class="dg-hcol">Fim prev</span><span class="dg-hcol">%</span><span class="dg-hcol">Ini real</span><span class="dg-hcol">Fim real</span><span class="dg-hcol">Desv</span><span class="dg-hcol">✓</span></div>`+
+      (shown.map(t=>{ const opts=[0,20,40,60,80,100].slice(); if(!opts.includes(t.pct))opts.push(t.pct); opts.sort((a,b)=>a-b);
+        const sel=opts.map(v=>`<option value="${v}" ${t.pct===v?'selected':''}>${v}%</option>`).join('');
+        const dv=dgDesvio(t); const dvc=dv==null?'#8a97a5':(dv>0?'var(--red)':(dv<0?'var(--green)':'var(--text)'));
+        const dvt=dv==null?'—':(dv>0?'+'+dv:(dv<0?''+dv:'0'));
+        return `<div class="dg-row" onclick="openTaskDetail(${t.id})" title="${esc(displayName(t))} — ${esc(t.status)}">
+        <span class="dg-op"><span class="dg-st2" style="background:${statusColor(t)}" title="${esc(RISK_LABEL[t.risco]||'')}"></span><b>${esc(opUpper(t))}</b> <span class="dg-ref">${esc(t.molde||'')}</span></span>
+        <span class="dg-prevdt" title="Início previsto">${ddmm(t.inicioD)}</span>
+        <span class="dg-prevdt" style="color:${termColor(t)}" title="Término previsto">${ddmm(t.fimD||t.progD)}</span>
+        <select class="dg-sel" id="dgpct_${t.id}" onclick="event.stopPropagation()" title="Progresso">${sel}</select>
+        <span class="dg-dwrap" onclick="event.stopPropagation()"><input type="text" class="dg-date" id="ini_${t.id}" placeholder="dd/mm" maxlength="5" value="${t.inicioReal?ddmm(t.inicioReal):''}" oninput="dgMaskDDMM(this)"><input type="date" class="dg-calh" value="${t.inicioReal||''}" onchange="dgCalPick('ini_${t.id}',this.value)"></span>
+        <span class="dg-dwrap" onclick="event.stopPropagation()"><input type="text" class="dg-date" id="fim_${t.id}" placeholder="dd/mm" maxlength="5" value="${t.fimReal?ddmm(t.fimReal):''}" oninput="dgMaskDDMM(this)"><input type="date" class="dg-calh" value="${t.fimReal||''}" onchange="dgCalPick('fim_${t.id}',this.value)"></span>
+        <span class="dg-desv" style="color:${dvc}" title="Desvio: real − previsto (dias)">${dvt}</span>
+        <button class="dg-save" onclick="event.stopPropagation();dgApontar(${t.id})" title="Salvar (%, Ini/Fim real)">✓</button></div>`; }).join('')||'<div class="dg-empty">—</div>')+
       (tasks.length>80?`<div class="dg-empty">+${tasks.length-80} tarefas… use os filtros</div>`:'')+
       `</div>`;
   }
@@ -2256,14 +2303,14 @@ function renderDiaGrade(){
   // Máquinas agrupadas por seu grupo de recurso (título do grupo + máquinas abaixo)
   const grpOfRes={}; Object.keys(byR).forEach(r=>{ const g=groupOf(r); (grpOfRes[g]=grpOfRes[g]||[]).push(r); });
   const secHtml=Object.keys(grpOfRes).sort().map(g=>{
-    const machines=grpOfRes[g].sort(); const span=Math.min(Math.max(machines.length,1),4);
+    const machines=grpOfRes[g].sort(); const span=Math.min(Math.max(machines.length,1),2);
     const cards=machines.map(r=>dgListCard('r:'+r,r,st(byR[r]))).join('');
     return `<div class="dg-sec" style="grid-column:span ${span}">
       <div class="dg-sec-h">${esc(g)} <span class="tag-mini">${machines.length} máq</span></div>
       <div class="dg-sec-in" style="grid-template-columns:repeat(${span},1fr)">${cards}</div></div>`;
   }).join('');
   const rSections=secHtml?`<div class="dg-sec-grid">${secHtml}</div>`:'<div class="empty">—</div>';
-  const diasInfo=DG_DIAS!==''?` · filtro: término até ${DG_DIAS} dias`:'';
+  const diasInfo=DG_DIAS!==''?` · filtro: início em até ${DG_DIAS} dias`:'';
   document.getElementById('view-diagrade').innerHTML=`
     <div class="view-title">Plano do Dia — Grade</div>
     <div class="view-sub">Listas por <b>setor</b> e por <b>máquina</b> (máquinas agrupadas sob o setor). Clique num título para abrir/fechar (pode manter várias abertas). <b>Término</b>: <span style="color:var(--red)">vermelho</span>=atrasado vs hoje · <span style="color:var(--orange)">laranja</span>=próximo (≤3 dias úteis) · preto=ok. Bolinha=status. Recolha o menu (☰) para ver mais. Só não concluídas${diasInfo}.</div>
@@ -2271,7 +2318,7 @@ function renderDiaGrade(){
     <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center;flex-wrap:wrap">
       <button class="btn btn-outline btn-sm" onclick="dgAll(true)">Expandir todas</button>
       <button class="btn btn-outline btn-sm" onclick="dgAll(false)">Recolher todas</button>
-      <label style="font-size:12px;display:flex;gap:5px;align-items:center;margin-left:8px">Término em até <input type="number" min="0" style="width:62px;border:1px solid var(--border);border-radius:5px;padding:4px" value="${esc(DG_DIAS)}" onchange="DG_DIAS=this.value.trim();renderView('diagrade')" placeholder="X"> dias</label>
+      <label style="font-size:12px;display:flex;gap:5px;align-items:center;margin-left:8px">Início em até <input type="number" min="0" style="width:62px;border:1px solid var(--border);border-radius:5px;padding:4px" value="${esc(DG_DIAS)}" onchange="DG_DIAS=this.value.trim();renderView('diagrade')" placeholder="X"> dias</label>
       ${DG_DIAS!==''?`<button class="btn btn-outline btn-sm" onclick="DG_DIAS='';renderView('diagrade')">✕ limpar prazo</button>`:''}
     </div>
     ${reportPdfBarHtml()}
@@ -2370,7 +2417,7 @@ function horizonRows(){
 }
 /* Modal com as etapas de um molde (mesmo conteúdo da aba Pacotes, sem sair da página) */
 function showMolde(moldeRef){
-  const key=normRef(moldeRef); const sev={cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4};
+  const key=normRef(moldeRef); const sev={cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4,preto:5};
   const ops=sortWbs(computeAll().filter(t=>normRef(t.molde)===key));
   if(!ops.length){ toast('Molde não encontrado'); return; }
   modal(()=>showMolde(moldeRef));
@@ -2437,9 +2484,9 @@ function renderMes(){
   const mkeys=Object.keys(byM).sort();
   const dels=deliveries().filter(d=>d.promD&&monthKey(d.promD)===mk);
   const rl=resourceLoad();
-  const pacRisk={}; deliveries().forEach(d=>{ const sev={cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4};
+  const pacRisk={}; deliveries().forEach(d=>{ const sev={cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4,preto:5};
     (pacRisk[d.pacote]=pacRisk[d.pacote]||{pacote:d.pacote,risco:'cinza',n:0,crit:0}); if(sev[d.risco]>sev[pacRisk[d.pacote].risco])pacRisk[d.pacote].risco=d.risco;
-    pacRisk[d.pacote].n++; if(['laranja','vermelho'].includes(d.risco))pacRisk[d.pacote].crit++; });
+    pacRisk[d.pacote].n++; if(['laranja','vermelho','preto'].includes(d.risco))pacRisk[d.pacote].crit++; });
   const pacs=Object.values(pacRisk).sort((a,b)=>b.crit-a.crit);
   document.getElementById('view-mes').innerHTML=`
     <div class="view-title">Visão Mensal — ${monthName(mk)}</div>
@@ -2459,7 +2506,7 @@ function renderMes(){
     </div>
     <div class="panel"><h3><span class="t">Pacotes por risco no mês</span></h3>
       <div class="table-scroll" style="max-height:none"><table><thead><tr><th>Pacote</th><th class="num">Moldes/OPs</th><th class="num">Em risco</th><th>Risco geral</th></tr></thead><tbody>
-      ${pacs.map(p=>`<tr class="clickable" onclick="FILTERS.pacote='${esc(p.pacote)}';navTo('pacotes')"><td><b>${esc(p.pacote)}</b></td><td class="num">${p.n}</td><td class="num">${p.crit}</td><td>${riskChip(p.risco)}</td></tr>`).join('')}
+      ${pacs.map(p=>`<tr class="clickable" onclick="FILTERS.pacote='${esc(p.pacote)}';navTo('pacotes', true)"><td><b>${esc(p.pacote)}</b></td><td class="num">${p.n}</td><td class="num">${p.crit}</td><td>${riskChip(p.risco)}</td></tr>`).join('')}
       </tbody></table></div></div>`;
   destroyChart('chMesCarga');
   charts.chMesCarga=new Chart(document.getElementById('chMesCarga'),{type:'bar',
@@ -2520,7 +2567,7 @@ function renderRecursos(){
 
 /* ---------- VISÃO POR PACOTE ---------- */
 function renderPacotes(){
-  const sev={cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4};
+  const sev={cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4,preto:5};
   let dels=deliveries().slice().sort((a,b)=>(a.promD?+a.promD:9e15)-(b.promD?+b.promD:9e15));
   const F=FILTERS;
   dels=dels.filter(d=>{
@@ -2536,7 +2583,7 @@ function renderPacotes(){
       <td class="num">${d.ops.length}</td><td style="color:${termD(d)};font-weight:600">${fmtDate(d.promD)}</td>
       <td>${fmtDate(d.dataCalc)}</td><td class="num">${d.folga==null?'—':num(d.folga)+'d'}</td><td>${chip}</td></tr>`; }).join('')
     ||'<tr><td colspan="8"><div class="empty">Nenhum molde para os filtros.</div></td></tr>';
-  const concl=dels.filter(d=>d.concluida).length, risco=dels.filter(d=>['laranja','vermelho'].includes(d.risco)&&!d.concluida).length;
+  const concl=dels.filter(d=>d.concluida).length, risco=dels.filter(d=>['laranja','vermelho','preto'].includes(d.risco)&&!d.concluida).length;
   document.getElementById('view-pacotes').innerHTML=`
     <div class="view-title">Moldes / OPs</div>
     <div class="view-sub">Lista de todos os moldes/OPs (1 linha = 1 molde). Clique num molde para ver as etapas, apontar e o histórico. ${dels.length} moldes · ${concl} concluídos · ${risco} em risco.</div>
@@ -2582,7 +2629,7 @@ function openTaskDetail(id){
     return pt?`<li>${riskDot(pt.risco)} #${pt.projId||pt.id} ${esc(displayName(pt))} — ${esc(pt.status)} (${pt.pct}%)</li>`:`<li>#${p}</li>`; }).join('')||'<li style="color:#8a97a5">Nenhuma</li>';
   const sucs=computeAll().filter(x=>predList(x.predecessoras).includes(String(t.id)));
   const sucList=sucs.map(s=>`<li>${riskDot(s.risco)} #${s.projId||s.id} ${esc(displayName(s))} — ${esc(s.status)}</li>`).join('')||'<li style="color:#8a97a5">Nenhuma</li>';
-  const aps=logForTask(t.id).map(l=>`<li><b>${new Date(l.ts).toLocaleString('pt-BR')}</b> · ${esc(l.status||'')} · ${l.pct}%${l.motivo?' · '+esc(l.motivo):''}${l.obs?' — '+esc(l.obs):''}${l.resp?' ('+esc(l.resp)+')':''}</li>`).join('')||'<li style="color:#8a97a5">Nenhum apontamento.</li>';
+  const aps=logForTask(t.id).map(l=>`<li class="clickable" style="cursor:pointer" onclick="openApontDetail(${t.id},'${l.ts}')" title="Ver os dados deste apontamento"><b>${new Date(l.ts).toLocaleString('pt-BR')}</b> · ${esc(l.status||'')} · ${l.pct}%${l.motivo?' · '+esc(l.motivo):''}${l.obs?' — '+esc(l.obs):''}${l.resp?' ('+esc(l.resp)+')':''}</li>`).join('')||'<li style="color:#8a97a5">Nenhum apontamento.</li>';
   const nts=notesForTask(t.id).map(n=>`<li><b>${fmtDate(parseDate(n.dataRef))}</b>${n.responsavel?' ('+esc(n.responsavel)+')':''}: ${noteTextHtml(n.texto)}</li>`).join('')||'<li style="color:#8a97a5">Nenhuma nota vinculada.</li>';
   openGen('#'+(t.projId||t.id)+' · '+displayName(t),`
     <div class="form-grid">
@@ -2658,7 +2705,7 @@ function changeRecurso(id){ const t=(TASKS||[]).find(x=>x.id===id); if(!t)return
   MODAL_NAV=true; try{ openTaskDetail(id); } finally { MODAL_NAV=false; } toast('Recurso alterado.'); }
 function showList(title,list){
   modal(()=>showList(title,list));
-  list=list.slice().sort((a,b)=>({cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4})[b.risco]-({cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4})[a.risco]);
+  list=list.slice().sort((a,b)=>({cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4,preto:5})[b.risco]-({cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4,preto:5})[a.risco]);
   const rows=list.map(t=>`<tr class="clickable" onclick="openTaskDetail(${t.id})"><td>${riskDot(t.risco)}<b>${esc(displayName(t))}</b></td><td>${esc(recursoDe(t))}</td><td class="num">${num(t.saldo)}</td><td>${fmtDate(t.progD)}</td><td>${fmtDate(t.promD)}</td></tr>`).join('')||'<tr><td colspan="5"><div class="empty">Nenhum item.</div></td></tr>';
   openGen(title+' ('+list.length+')',`<div class="table-scroll"><table><thead><tr><th>Tarefa (Referência - Operação)</th><th>Recurso</th><th class="num">Saldo peças</th><th>Programada</th><th>Prometida</th></tr></thead><tbody>${rows}</tbody></table></div>`,true);
 }
@@ -2668,7 +2715,7 @@ function showDeliveries(type){
   if(type==='vencidas'){ dels=dels.filter(d=>d.promD&&d.promD<t0&&!d.concluida); title='Entregas vencidas'; }
   else if(type==='hoje'){ dels=dels.filter(d=>d.promD&&isoDate(d.promD)===isoDate(t0)&&!d.concluida); title='Entregas de hoje'; }
   else if(type==='prox7'){ dels=dels.filter(d=>d.promD&&d.promD>t0&&d.promD<=addDays(t0,7)&&!d.concluida); title='Entregas próximos 7 dias'; }
-  else if(type==='risco'){ dels=dels.filter(d=>['laranja','vermelho'].includes(d.risco)&&!d.concluida); title='Entregas prometidas em risco'; }
+  else if(type==='risco'){ dels=dels.filter(d=>['laranja','vermelho','preto'].includes(d.risco)&&!d.concluida); title='Entregas prometidas em risco'; }
   dels.sort((a,b)=>(a.promD||0)-(b.promD||0));
   const rows=dels.map(d=>`<tr class="clickable" onclick="showMolde('${esc(d.molde).replace(/'/g,"\\'")}')">
     <td>${riskDot(d.risco)}<b>${esc(d.molde)}</b> <span class="tag-mini">${d.ops.length} ops</span></td><td>${esc(d.pacote)}</td><td>${esc(d.cliente||'—')}</td>
@@ -2713,7 +2760,7 @@ function renderGantt(){
     <div class="view-title">Linha do Tempo (Gantt)</div>
     <div class="view-sub">Barras por operação · cor = risco · linha vermelha = hoje · tracejado = data prometida · clique numa barra para detalhar</div>
     ${filterBar('period')}
-    <div class="legend" style="margin-bottom:8px">${['verde','amarelo','laranja','vermelho','cinza'].map(r=>`<span>${riskDot(r)}${RISK_LABEL[r]}</span>`).join('')}</div>
+    <div class="legend" style="margin-bottom:8px">${['verde','amarelo','vermelho','preto','cinza'].map(r=>`<span>${riskDot(r)}${RISK_LABEL[r]}</span>`).join('')}</div>
     <div class="gantt">
       <div class="gantt-head"><div class="g-label">Molde / Operação (${list.length})</div><div style="display:flex;position:relative;width:${days.length*W}px">${headCells}</div></div>
       <div style="position:relative">
@@ -2795,7 +2842,7 @@ function renderPredecessoras(){
 function renderApontamento(){
   const all=sortWbs(computeAll().filter(t=>t.pct<100).filter(passFilters));
   const logRows=LOG.slice().reverse().slice(0,40).map(l=>{ const t=(TASKS||[]).find(x=>x.id===l.taskId);
-    return `<tr class="${t?'clickable':''}" ${t?`onclick="openTaskDetail(${t.id})" title="Abrir a tarefa e seu histórico"`:''}><td>${esc(l.data)}</td><td>${t?'<b>'+esc(displayName(t))+'</b>':'#'+l.taskId}</td><td>${l.pct!=null?l.pct+'%':''}</td><td>${esc(l.status||'')}</td><td>${esc(l.motivo||'')}</td><td>${esc(l.resp||'')}</td></tr>`;}).join('')||'<tr><td colspan="6"><div class="empty">Nenhum apontamento registrado ainda.</div></td></tr>';
+    return `<tr class="clickable" onclick="openApontDetail(${l.taskId},'${l.ts}')" title="Ver os dados deste apontamento"><td>${esc(l.data)}</td><td>${t?'<b>'+esc(displayName(t))+'</b>':'#'+l.taskId}</td><td>${l.pct!=null?l.pct+'%':''}</td><td>${esc(l.status||'')}</td><td>${esc(l.motivo||'')}</td><td>${esc(l.resp||'')}</td></tr>`;}).join('')||'<tr><td colspan="6"><div class="empty">Nenhum apontamento registrado ainda.</div></td></tr>';
   document.getElementById('view-apontamento').innerHTML=`
     <div class="view-title">Apontamento Diário</div>
     <div class="view-sub">A fábrica informa <b>progresso</b> (quantidade feita, status). O sistema recalcula o impacto no prazo — a fábrica não altera datas.</div>
@@ -2813,7 +2860,7 @@ function renderApontamento(){
     {key:'saldo',label:'Saldo',cls:'num',render:r=>num(r.saldo)},
     {key:'pct',label:'%',cls:'num',render:r=>r.pct+'%'},
     {key:'status',label:'Status',render:r=>`<span class="s-pill">${esc(r.status)}</span>`},
-    {key:'risco',label:'Risco',sortVal:r=>({cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4})[r.risco],render:r=>riscoTag(r)},
+    {key:'risco',label:'Risco',sortVal:r=>({cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4,preto:5})[r.risco],render:r=>riscoTag(r)},
     {key:'ap',label:'',render:r=>`<button class="btn btn-primary btn-sm" onclick="event.stopPropagation();openApontar(${r.id})">✎ Apontar</button>`}
   ]);
 }
@@ -2844,6 +2891,27 @@ function openApontar(id){
       <button class="btn btn-outline" onclick="closeModal('genModal')">Cancelar</button>
       <button class="btn btn-primary" onclick="saveApontar(${t.id})">Salvar apontamento</button></div>
   `);
+}
+// Janela com os DADOS de um apontamento específico (clicável no histórico)
+function openApontDetail(taskId, ts){
+  const l=(LOG||[]).find(x=>x.taskId===taskId && x.ts===ts); if(!l){ toast('Apontamento não encontrado'); return; }
+  const t=(TASKS||[]).find(x=>x.id===taskId);
+  modal(()=>openApontDetail(taskId,ts));
+  const row=(lb,v)=>`<div class="form-row"><label>${lb}</label><div>${v}</div></div>`;
+  openGen('✎ Apontamento — '+(t?displayName(t):'#'+taskId), `
+    <div class="form-grid">
+      ${row('Tarefa', t?('<b>'+esc(displayName(t))+'</b>'):('#'+taskId))}
+      ${row('Data/hora do apontamento', new Date(l.ts).toLocaleString('pt-BR'))}
+      ${row('Responsável', esc(l.resp||'—'))}
+      ${row('Status informado', '<span class="s-pill">'+esc(l.status||'—')+'</span>')}
+      ${row('% concluído', l.pct!=null? l.pct+'%':'—')}
+      ${row('Motivo do desvio', esc(l.motivo||'—'))}
+      ${row('Início real informado', l.inicioReal? fmtDate(parseDate(l.inicioReal)):'—')}
+      ${row('Nova previsão informada', l.previsao? fmtDate(parseDate(l.previsao)):'—')}
+    </div>
+    <div class="form-row"><label>Observação</label><div>${esc(l.obs||'—')}</div></div>
+    <div style="text-align:right;margin-top:10px">${t?`<button class="btn btn-primary btn-sm" onclick="MODAL_NAV=true;try{openTaskDetail(${taskId})}finally{MODAL_NAV=false}">Abrir a tarefa e todo o histórico →</button>`:''}</div>
+  `, true);
 }
 function apSetPct(v){ const el=document.getElementById('apPct'); if(el){ el.value=v; if(v>=100){ const s=document.getElementById('apStatus'); if(s)s.value='Concluída'; } } }
 function apSetResp(n){ const el=document.getElementById('apResp'); if(el) el.value=n; }
@@ -3000,13 +3068,13 @@ function applyColors(){ const c=CONFIG.cores; const root=document.documentElemen
 
 /* ---------- RELATÓRIOS ---------- */
 function topRecursos(n){ return resourceLoad().filter(r=>r.saldo>0).slice(0,n).map(r=>r.recurso); }
-function prioridades(n){ return computeAll().filter(t=>t.pct<100).sort((a,b)=>({cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4})[b.risco]-({cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4})[a.risco]).slice(0,n); }
+function prioridades(n){ return computeAll().filter(t=>t.pct<100).sort((a,b)=>({cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4,preto:5})[b.risco]-({cinza:0,verde:1,amarelo:2,laranja:3,vermelho:4,preto:5})[a.risco]).slice(0,n); }
 function dailyReportText(){
   const all=computeAll(),t0=today();
   const planOps=all.filter(t=>t.pct<100&&(!t.inicioD||t.inicioD<=t0));
   const planMoldes=moldsWith(planOps);
   const atrOps=all.filter(t=>t.progD&&t.progD<t0&&t.pct<100);
-  const riscoMoldes=deliveries().filter(d=>['laranja','vermelho'].includes(d.risco)&&!d.concluida);
+  const riscoMoldes=deliveries().filter(d=>['laranja','vermelho','preto'].includes(d.risco)&&!d.concluida);
   const rec=topRecursos(3).join(', ')||'—';
   const nomesRisco=riscoMoldes.slice(0,3).map(d=>d.molde).join(', ')||'nenhum';
   return `Hoje (${fmtDate(t0)}) existem ${planOps.length} operações planejadas, envolvendo ${planMoldes} molde(s); `+
@@ -3024,7 +3092,7 @@ function weeklyReportText(){
   const comecar=all.filter(t=>t.inicioD&&weekKey(t.inicioD)===wk&&t.pct<100);
   const terminar=all.filter(t=>t.progD&&weekKey(t.progD)===wk&&t.pct<100);
   const rec=topRecursos(3).join(', ');
-  const riscos=dels.filter(d=>['laranja','vermelho'].includes(d.risco)).map(d=>d.molde).join(', ')||'nenhum';
+  const riscos=dels.filter(d=>['laranja','vermelho','preto'].includes(d.risco)).map(d=>d.molde).join(', ')||'nenhum';
   return `Semana ${wk}: ${dels.length} molde(s) prometido(s); ${moldsWith(comecar)} molde(s) precisam iniciar (${comecar.length} operações) e ${moldsWith(terminar)} molde(s) precisam terminar (${terminar.length} operações). `+
     `Recursos críticos: ${rec}. Moldes em risco: ${riscos}. Ação: priorizar moldes em risco e liberar predecessoras atrasadas.`;
 }
@@ -3039,7 +3107,7 @@ function monthlyReportText(){
   const dels=deliveries().filter(d=>d.promD&&monthKey(d.promD)===mk);
   const carga=all.filter(t=>t.progD&&monthKey(t.progD)===mk).reduce((s,t)=>s+t.saldo,0);
   const rec=topRecursos(3).join(', ');
-  const pacCrit=[...new Set(dels.filter(d=>['laranja','vermelho'].includes(d.risco)).map(d=>d.pacote))].join(', ')||'nenhum';
+  const pacCrit=[...new Set(dels.filter(d=>['laranja','vermelho','preto'].includes(d.risco)).map(d=>d.pacote))].join(', ')||'nenhum';
   return `${monthName(mk)}: ${dels.length} molde(s) prometido(s) no mês; carga produtiva de ${num(carga)} peças (saldo). `+
     `Recursos com maior carga: ${rec}. Pacotes críticos: ${pacCrit}. Recomendação: revisar capacidade dos gargalos e antecipar operações dos pacotes críticos.`;
 }
@@ -3064,7 +3132,7 @@ function exportCSV(list){
 function exportReport(){
   const all=computeAll(),t0=today();
   const atrasadas=all.filter(t=>t.progD&&t.progD<t0&&t.pct<100);
-  const risco=deliveries().filter(d=>['laranja','vermelho'].includes(d.risco)&&!d.concluida);
+  const risco=deliveries().filter(d=>['laranja','vermelho','preto'].includes(d.risco)&&!d.concluida);
   const acoes=prioridades(20);
   const tbl=(rows,heads)=>`<table style="width:100%;border-collapse:collapse;font-size:12px;margin:6px 0 14px"><thead><tr>${heads.map(h=>`<th style="background:#002B5C;color:#fff;padding:6px;text-align:left">${h}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table>`;
   const acaoRows=acoes.map(t=>`<tr><td style="padding:5px;border-bottom:1px solid #eee">${esc(displayName(t))}</td><td style="padding:5px;border-bottom:1px solid #eee">${esc(recursoDe(t))}</td><td style="padding:5px;border-bottom:1px solid #eee">${fmtDate(t.fimD||t.progD)}</td><td style="padding:5px;border-bottom:1px solid #eee;text-align:right">${fmtMeta(t.metaMoldeDia)}</td><td style="padding:5px;border-bottom:1px solid #eee">${RISK_LABEL[t.risco]}</td><td style="padding:5px;border-bottom:1px solid #eee">${esc(acaoRecomendada(t))}</td></tr>`).join('');
@@ -3098,7 +3166,40 @@ function clearData(){
 function init(){
   applyColors();
   if(!TASKS){ const d=buildDemo(); TASKS=d.tasks; PROMISES=d.promises; IS_DEMO=true; LAST_UPDATE=LAST_UPDATE||new Date().toISOString(); persist(); }
+  ensureHelpBtn();
   navTo('painel'); refreshAll();
+}
+/* ---------- BOTÃO DE DÚVIDAS (?) em todas as telas ---------- */
+const HELP_MANUAL='Manual-Painel-Setti.pdf';        // manual de uso (mesmo repositório)
+const HELP_PREREQ='Pre-requisitos-Project.pdf';      // pré-requisitos do arquivo do Project
+function ensureHelpBtn(){ if(document.getElementById('helpBtn')) return; const b=document.createElement('button');
+  b.id='helpBtn'; b.textContent='?'; b.title='Dúvidas / Ajuda';
+  b.style.cssText='position:fixed;right:18px;bottom:18px;z-index:150;width:46px;height:46px;border-radius:50%;background:var(--blue);color:#fff;border:none;font-size:23px;font-weight:700;line-height:1;box-shadow:0 4px 14px rgba(0,0,0,.28);cursor:pointer';
+  b.onclick=openHelp; document.body.appendChild(b); }
+function openHelp(){
+  modal(()=>openHelp());
+  const M='Manual', P='Pré-requisitos do Project';
+  const faq=[
+    ['Como registro o avanço de uma tarefa?','Clique na operação (nas listas, no Gantt ou na tela do molde) → seção "Apontar produção" → escolha o % (ou "Concluí 100%") → "Salvar apontamento".',HELP_MANUAL,M],
+    ['Como devolvo os apontamentos para o Microsoft Project?','Barra superior → "Exportar Project (seguro)" → confira na tela de validação → "Baixar XML". No Project: Arquivo → Abrir → o .xml → "Como um novo projeto".',HELP_MANUAL,M],
+    ['O que o arquivo do Project precisa ter para funcionar aqui?','Referência do molde (Texto1), Cliente (Texto2), nome da operação na tarefa, recurso/máquina com o nome exato, datas (início/término), duração e predecessoras.',HELP_PREREQ,P],
+    ['Minha máquina caiu em "Outros" ou no grupo errado. Por quê?','O nome da máquina no Project não bate com o cadastro. Use o nome EXATO da lista (ex.: Maxmill VMC-855) ou ajuste em Configurações → Sequência & Recursos.',HELP_PREREQ,P],
+    ['Meus apontamentos aparecem para a equipe?','Sim — se o selo do topo estiver "● Sincronizado" (verde). Se aparecer "Offline", as mudanças ficam só no seu aparelho.',HELP_MANUAL,M],
+    ['Preciso digitar a chave de acesso toda vez?','Não. Depois de entrar, o navegador lembra a sessão. Só pede de novo em outro aparelho/navegador, após "Sair" ou se limpar os dados do navegador.',HELP_MANUAL,M],
+    ['Como gero o relatório em PDF para a reunião?','Tela "Plano do Dia — Grade" → abra "Relatórios PDF" → escolha o grupo e o horizonte → na janela de impressão escolha "Salvar como PDF".',HELP_MANUAL,M],
+    ['Apontei 100% mas no Project aparece diferente. O que faço?','Exporte no modo SEGURO (padrão) — ele grava o % direto na tarefa. As datas reais ficam no campo Anotações. Veja o passo a passo no manual/pré-requisitos.',HELP_PREREQ,P],
+  ];
+  const rows=faq.map(([q,a,pdf,lbl])=>`<div style="border-bottom:1px solid #eef1f5;padding:9px 0">
+     <div style="font-weight:700;color:var(--navy);font-size:13.5px">${esc(q)}</div>
+     <div style="font-size:12.5px;color:#33475b;margin:4px 0 5px">${esc(a)}</div>
+     <a href="${pdf}" target="_blank" rel="noopener" style="font-size:12px;font-weight:600">📄 Procedimento completo — ${esc(lbl)} (PDF) →</a>
+   </div>`).join('');
+  openGen('❓ Dúvidas frequentes', `<p class="hint" style="margin-bottom:8px">Respostas rápidas abaixo. Para o passo a passo completo, abra o PDF (abre em nova aba).</p>${rows}
+    <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+      <a class="btn btn-primary btn-sm" href="${HELP_MANUAL}" target="_blank" rel="noopener">📘 Manual de uso (PDF)</a>
+      <a class="btn btn-light btn-sm" href="${HELP_PREREQ}" target="_blank" rel="noopener">📋 Pré-requisitos do Project (PDF)</a>
+    </div>
+    <p class="hint" style="margin-top:8px">Se os PDFs não abrirem, peça ao administrador para enviá-los à mesma pasta do site (repositório do GitHub).</p>`, true);
 }
 if(typeof Chart!=='undefined'){ Chart.defaults.font.family="'Segoe UI',Roboto,Arial,sans-serif"; Chart.defaults.font.size=11.5; Chart.defaults.color='#33475b'; }
 document.addEventListener('click',e=>{ if(e.target.classList&&e.target.classList.contains('modal-bg')) closeModal(e.target.id);
